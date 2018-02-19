@@ -27,7 +27,7 @@ public class Sandwich {
     }
 
     public String getMainName() {
-        return mainName;
+        return nvl(mainName);
     }
 
     public void setMainName(String mainName) {
@@ -38,12 +38,16 @@ public class Sandwich {
         return alsoKnownAs;
     }
 
+    public String getAlsoKnownAsString() {
+        return nvl(listToString(alsoKnownAs));
+    }
+
     public void setAlsoKnownAs(List<String> alsoKnownAs) {
         this.alsoKnownAs = alsoKnownAs;
     }
 
     public String getPlaceOfOrigin() {
-        return placeOfOrigin;
+        return nvl(placeOfOrigin);
     }
 
     public void setPlaceOfOrigin(String placeOfOrigin) {
@@ -51,7 +55,7 @@ public class Sandwich {
     }
 
     public String getDescription() {
-        return description;
+        return nvl(description);
     }
 
     public void setDescription(String description) {
@@ -70,7 +74,30 @@ public class Sandwich {
         return ingredients;
     }
 
+    public String getIngredientsString() {
+        return nvl(listToString(ingredients));
+    }
+
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    private String listToString(List<String> list) {
+        StringBuilder result = new StringBuilder();
+
+        if (list != null) {
+            for (String s : list) {
+                result.append("\t* ").append(s).append("\n");
+            }
+        }
+        if (result.toString().endsWith("\n")) {
+            result.deleteCharAt(result.length() - 1);
+        }
+
+        return result.toString();
+    }
+
+    private String nvl(String s) {
+        return s == null || s.trim().isEmpty() ? "-" : s.replace("\\", "");
     }
 }
